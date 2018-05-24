@@ -9,10 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var game = Set()
     
     @IBAction func selectCard(_ sender: UIButton) {
+        if let cardIndex = cardButtons.index(of: sender) {
+            game.chooseCard(at: cardIndex)
+        }
         print("card selected, \(sender)")
     }
+    @IBOutlet var cardButtons: [UIButton]!
+    
+    
     
 
 }

@@ -12,6 +12,10 @@ import Foundation
 struct Card: Hashable
 {
     var isSelected = false
+    var number: Int
+    var symbol: Int
+    var shading: Int
+    var color: Int
     
     private var identifier: Int
     
@@ -29,8 +33,12 @@ struct Card: Hashable
         return lhs.identifier == rhs.identifier
     }
     
-    init() {
+    init(number: Int, symbol: Int, shading: Int, color: Int) {
         self.identifier = Card.getUniqueIdentifier()
+        self.number = number
+        self.symbol = symbol
+        self.shading = shading
+        self.color = color
     }
     
 }
