@@ -14,14 +14,26 @@ class ViewController: UIViewController {
     @IBAction func selectCard(_ sender: UIButton) {
         if let cardIndex = cardButtons.index(of: sender) {
             game.chooseCard(at: cardIndex)
+            let card = game.cards[cardIndex]
+            // set selected style
+            if card.isSelected && card.isVisible {
+                sender.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+                sender.layer.borderWidth = 3.0
+            }else {
+                sender.layer.borderWidth = 0.0
+            }
         }
     }
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
+            // start with 12 visible and styles cards
             let startingSet = getRandomNumbers(of: cardButtons.count, unique: 12)
             for cardIndex in startingSet {
                let card = game.cards[cardIndex]
                let button = cardButtons[cardIndex]
+                // make visible
+                game.cards[cardIndex].isVisible = true
+                // style cards
                 style(a: button, by: card)
             }
         }

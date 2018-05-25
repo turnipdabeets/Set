@@ -13,9 +13,12 @@ struct SetGame
 {
     var cards = [Card]()
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
+        // toggle isSelected
+        cards[index].isSelected = !cards[index].isSelected
         print(cards[index])
+        // if three cards are selected then asses correctness
     }
     
     mutating private func makeDeck(){
