@@ -15,7 +15,7 @@ struct Set
     
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
-        print("chosen card at index \(index) is \(cards[index])")
+        print(cards[index])
     }
     
     mutating private func makeDeck(){
@@ -32,8 +32,15 @@ struct Set
         }
     }
     
+    mutating private func shuffleDeck() {
+        for _ in 0..<cards.count {
+            cards.sort(by: {_,_ in arc4random() > arc4random()})
+        }
+    }
+    
     init() {
         makeDeck()
+        shuffleDeck()
     }
     
 }
