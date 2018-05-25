@@ -12,13 +12,67 @@ import Foundation
 struct SetGame
 {
     var cards = [Card]()
+    var selectedCards = [Int]()
     
     mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
+        if selectedCards.count < 3 {
+            // toggle and store selected cards
+            handleSelectedCard(at: index)
+        }else {
+            // evaluate correctness of selected cards
+            evaluateSet()
+            // TODO: evalute as soon as three cards are saved, not on next click like now
+        }
+    }
+    
+    private func evaluateSet() {
+        // get three selected cards
+        let cardOne = cards[selectedCards[0]]
+        let cardTwo = cards[selectedCards[1]]
+        let cardThree = cards[selectedCards[2]]
+        // get set cases
+        let allTheSameNumber = allTheSame(itemOne: cardOne.number, itemTwo: cardTwo.number, itemThree: cardThree.number)
+        let allDifferentNumber = allDifferent(itemOne: cardOne.number, itemTwo: cardTwo.number, itemThree: cardThree.number)
+        let allTheSameColor = allTheSame(itemOne: cardOne.color, itemTwo: cardTwo.color, itemThree: cardThree.color)
+        let allDifferentColor = allDifferent(itemOne: cardOne.color, itemTwo: cardTwo.color, itemThree: cardThree.color)
+        let allTheSameSymbol = allTheSame(itemOne: cardOne.symbol, itemTwo: cardTwo.symbol, itemThree: cardThree.symbol)
+        let allDifferentSymbol = allDifferent(itemOne: cardOne.symbol, itemTwo: cardTwo.symbol, itemThree: cardThree.symbol)
+        let allTheSameShading = allTheSame(itemOne: cardOne.shading, itemTwo: cardTwo.shading, itemThree: cardThree.shading)
+        let allDifferentShading = allDifferent(itemOne: cardOne.shading, itemTwo: cardTwo.shading, itemThree: cardThree.shading)
+        // check set cases
+        if allTheSameNumber || allDifferentNumber {
+            if allTheSameColor || allDifferentColor {
+                if allTheSameSymbol || allDifferentSymbol {
+                    if allTheSameShading || allDifferentShading {
+                        print("you have a Set~")
+                        return true
+                    }
+                }
+            }
+        }
+    }
+    
+    private func allTheSame(itemOne: Int, itemTwo: Int, itemThree:Int) -> Bool {
+        return itemOne == itemTwo && itemTwo == itemThree
+    }
+    
+    private func allDifferent(itemOne: Int, itemTwo: Int, itemThree:Int) -> Bool {
+        return itemOne != itemTwo && itemTwo != itemThree && itemThree != itemOne
+    }
+    
+    mutating private func handleSelectedCard(at index: Int){
         // toggle isSelected
         cards[index].isSelected = !cards[index].isSelected
-        print(cards[index])
-        // if three cards are selected then asses correctness
+        // save selected if visible
+        if cards[index].isSelected && cards[index].isVisible {
+            selectedCards.append(index)
+        }else {
+            // remove unselected
+            if let selected = selectedCards.index(of: index) {
+                selectedCards.remove(at: selected)
+            }
+        }
     }
     
     mutating private func makeDeck(){
