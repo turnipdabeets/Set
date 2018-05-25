@@ -10,6 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     var game = SetGame()
+    lazy var totalCardPlaceholder = cardButtons.count
+    var visibleSet = Set<Int>()
+    
+    @IBAction func dealThreeMore(_ sender: UIButton) {
+        // TODO: make sure no set exisit before dealing more
+        if visibleSet.count < totalCardPlaceholder {
+            visibleSet = getUniqueRandomNumbers(for: visibleSet, total: visibleSet.count + 3)
+            styleVisibleCards()
+        }else {
+            print("can't deal anymore cards, no room on screen!")
+        }
+    }
     
     @IBAction func selectCard(_ sender: UIButton) {
         if let cardIndex = cardButtons.index(of: sender) {
@@ -26,23 +38,28 @@ class ViewController: UIViewController {
     }
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
-            // start with 12 visible and styles cards
-            let startingSet = getRandomNumbers(of: cardButtons.count, unique: 12)
-            for cardIndex in startingSet {
-               let card = game.cards[cardIndex]
-               let button = cardButtons[cardIndex]
-                // make visible
-                game.makeCardVisible(by: cardIndex)
-                // style cards
-                style(a: button, by: card)
-            }
+            // start with 12 visible cards
+            visibleSet = getUniqueRandomNumbers(for: visibleSet, total: 12)
+            //  and styles cards
+            styleVisibleCards()
         }
     }
     
-    private func getRandomNumbers(of index: Int, unique total: Int) -> Set<Int> {
-        var uniqueNumbers = Set<Int>()
+    private func styleVisibleCards() {
+        for cardIndex in visibleSet {
+            let card = game.cards[cardIndex]
+            let button = cardButtons[cardIndex]
+            // make visible
+            game.makeCardVisible(by: cardIndex)
+            // style cards
+            style(a: button, by: card)
+        }
+    }
+    
+    private func getUniqueRandomNumbers(for set: Set<Int>, total: Int) -> Set<Int> {
+        var uniqueNumbers = set
         while uniqueNumbers.count < total {
-            let randomInt = Int(arc4random_uniform(UInt32(24)))
+            let randomInt = Int(arc4random_uniform(UInt32(totalCardPlaceholder)))
             uniqueNumbers.insert(randomInt)
         }
         return uniqueNumbers
