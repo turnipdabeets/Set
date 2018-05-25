@@ -11,8 +11,13 @@ import Foundation
 /// make a desk of cards with number, symbol, shading & color by Int 0-2
 struct SetGame
 {
-    var cards = [Card]()
-    var selectedCards = [Int]()
+    private(set) var cards = [Card]()
+    private(set) var score = 0
+    private var selectedCards = [Int]()
+    
+    mutating func makeCardVisible(by index: Int){
+        cards[index].isVisible = true
+    }
     
     mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
@@ -26,8 +31,11 @@ struct SetGame
             if hasSet {
                 // reset selectedCards
                 selectedCards.removeAll()
+                // increment score
+                score += 1
                 // TODO: if correct do something on ui, if not do something on ui
                 // TODO: add three more cards automatically
+                // TODO: add point to score
             } else {
                print("sorry, you dont have a Set~")
             }

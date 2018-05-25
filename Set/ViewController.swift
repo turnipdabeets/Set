@@ -32,7 +32,7 @@ class ViewController: UIViewController {
                let card = game.cards[cardIndex]
                let button = cardButtons[cardIndex]
                 // make visible
-                game.cards[cardIndex].isVisible = true
+                game.makeCardVisible(by: cardIndex)
                 // style cards
                 style(a: button, by: card)
             }
