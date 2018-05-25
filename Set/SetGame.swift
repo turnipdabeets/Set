@@ -19,14 +19,23 @@ struct SetGame
         if selectedCards.count < 3 {
             // toggle and store selected cards
             handleSelectedCard(at: index)
-        }else {
+        }
+        if selectedCards.count == 3{
             // evaluate correctness of selected cards
-            evaluateSet()
-            // TODO: evalute as soon as three cards are saved, not on next click like now
+            let hasSet = evaluateSet()
+            if hasSet {
+                // reset selectedCards
+                selectedCards.removeAll()
+                // TODO: if correct do something on ui, if not do something on ui
+                // TODO: add three more cards automatically
+            } else {
+               print("sorry, you dont have a Set~")
+            }
         }
     }
     
-    private func evaluateSet() {
+    private func evaluateSet() -> Bool {
+        print("evaluating...")
         // get three selected cards
         let cardOne = cards[selectedCards[0]]
         let cardTwo = cards[selectedCards[1]]
@@ -51,6 +60,7 @@ struct SetGame
                 }
             }
         }
+        return false
     }
     
     private func allTheSame(itemOne: Int, itemTwo: Int, itemThree:Int) -> Bool {
