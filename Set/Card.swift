@@ -9,6 +9,7 @@
 import Foundation
 
 /// hashable Card
+
 struct Card: Hashable
 {
     var isSelected = false
@@ -18,7 +19,6 @@ struct Card: Hashable
     var color: Int
     
     private var identifier: Int
-    
     private static var identifierFactory = 0
     
     /// always return a unique number incrementing by 1

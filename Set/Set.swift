@@ -8,14 +8,14 @@
 
 import Foundation
 
+/// make a desk of cards with number, symbol, shading & color by Int 0-2
 struct Set
 {
     var cards = [Card]()
-    private let totalCards = 81
     
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
-        print("chosen card at index: \(index) and identifier \(cards[index])")
+        print("chosen card at index \(index) is \(cards[index])")
     }
     
     mutating private func makeDeck(){
