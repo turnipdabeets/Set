@@ -13,7 +13,7 @@
 		A9954D5820B76524007192D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9954D5720B76524007192D4 /* Assets.xcassets */; };
 		A9954D5B20B76524007192D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9954D5920B76524007192D4 /* LaunchScreen.storyboard */; };
 		A9954D6420B767F5007192D4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9954D6320B767F5007192D4 /* Card.swift */; };
-		A9954D6620B76CAD007192D4 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9954D6520B76CAD007192D4 /* Set.swift */; };
+		A9954D6620B76CAD007192D4 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9954D6520B76CAD007192D4 /* SetGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +25,7 @@
 		A9954D5A20B76524007192D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9954D5C20B76524007192D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9954D6320B767F5007192D4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		A9954D6520B76CAD007192D4 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
+		A9954D6520B76CAD007192D4 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 				A9954D5420B76523007192D4 /* Main.storyboard */,
 				A9954D5C20B76524007192D4 /* Info.plist */,
 				A9954D6320B767F5007192D4 /* Card.swift */,
-				A9954D6520B76CAD007192D4 /* Set.swift */,
+				A9954D6520B76CAD007192D4 /* SetGame.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -149,7 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9954D6620B76CAD007192D4 /* Set.swift in Sources */,
+				A9954D6620B76CAD007192D4 /* SetGame.swift in Sources */,
 				A9954D5320B76523007192D4 /* ViewController.swift in Sources */,
 				A9954D6420B767F5007192D4 /* Card.swift in Sources */,
 				A9954D5120B76523007192D4 /* AppDelegate.swift in Sources */,

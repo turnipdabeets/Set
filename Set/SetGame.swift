@@ -9,7 +9,7 @@
 import Foundation
 
 /// make a desk of cards with number, symbol, shading & color by Int 0-2
-struct Set
+struct SetGame
 {
     var cards = [Card]()
     

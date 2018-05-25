@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var game = Set()
+    var game = SetGame()
     
     @IBAction func selectCard(_ sender: UIButton) {
         if let cardIndex = cardButtons.index(of: sender) {
@@ -18,14 +18,24 @@ class ViewController: UIViewController {
     }
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
-            for button in cardButtons {
-                if let cardIndex = cardButtons.index(of: button){
-                    let card = game.cards[cardIndex]
-                    style(a: button, by: card)
-                }
+            let startingSet = getRandomNumbers(of: cardButtons.count, unique: 12)
+            for cardIndex in startingSet {
+               let card = game.cards[cardIndex]
+               let button = cardButtons[cardIndex]
+                style(a: button, by: card)
             }
         }
     }
+    
+    private func getRandomNumbers(of index: Int, unique total: Int) -> Set<Int> {
+        var uniqueNumbers = Set<Int>()
+        while uniqueNumbers.count < total {
+            let randomInt = Int(arc4random_uniform(UInt32(24)))
+            uniqueNumbers.insert(randomInt)
+        }
+        return uniqueNumbers
+    }
+
     
     private func style(a button: UIButton, by card: Card) {
         // with color
@@ -51,9 +61,10 @@ class ViewController: UIViewController {
         for _ in 0...card.number {
             shape += symbolGroup[card.symbol]
         }
-        
+        // set attributes
         let attributedString = NSAttributedString(string: shape, attributes: attribute)
         button.setAttributedTitle(attributedString, for: .normal)
+        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     
