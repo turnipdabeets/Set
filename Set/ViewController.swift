@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     var game = SetGame()
-    lazy var totalCardPlaceholder = cardButtons.count
-    var visibleSet = Set<Int>()
+    private lazy var totalCardPlaceholder = cardButtons.count
+    private var visibleSet = Set<Int>()
     
     @IBAction func dealThreeMore(_ sender: UIButton) {
         // TODO: make sure no set exisit before dealing more
@@ -29,11 +29,31 @@ class ViewController: UIViewController {
             let card = game.cards[cardIndex]
             // set selected style
             if card.isSelected && card.isVisible {
-                sender.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+                sender.layer.borderColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
                 sender.layer.borderWidth = 3.0
             }else {
                 sender.layer.borderWidth = 0.0
             }
+            let matched = game.checkForMatch()
+            print("matched \(matched)")
+            print(game.cards)
+            if matched {
+                // remove border from all cards and hide
+                cardButtons.forEach({$0.layer.borderWidth = 0.0})
+                for cardIndex in visibleSet {
+                    let card = game.cards[cardIndex]
+                    let button = cardButtons[cardIndex]
+                    if card.isVisible {
+                        // style cards
+                        style(a: button, by: card)
+                    }else {
+                        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+                    }
+                    
+                }
+            }
+            
+            // TODO: if matched do something on ui, if not do something on ui
         }
     }
     @IBOutlet var cardButtons: [UIButton]! {
@@ -46,7 +66,9 @@ class ViewController: UIViewController {
     }
     
     private func styleVisibleCards() {
+        print("total visibleset \(visibleSet.count), total cards \(game.cards.count)")
         for cardIndex in visibleSet {
+            print("selected cardIndex \(cardIndex)")
             let card = game.cards[cardIndex]
             let button = cardButtons[cardIndex]
             // make visible
