@@ -10,49 +10,123 @@ import UIKit
 
 class ViewController: UIViewController {
     var game = SetGame()
+    var visibleButtons = Set<Int>()
     lazy var totalCardPlaceholder = cardButtons.count
-    var visibleSet = Set<Int>()
+    var hasMatch = false
+    
     
     @IBAction func dealThreeMore(_ sender: UIButton) {
-        // TODO: make sure no set exisit before dealing more
-        if visibleSet.count < totalCardPlaceholder {
-            visibleSet = getUniqueRandomNumbers(for: visibleSet, total: visibleSet.count + 3)
+        // TODO: add three more cards automatically
+        if hasMatch {
+            resetCardsStyle()
+            game.getNewCards()
+            game.resetSelection()
+            print("new card order")
+            print(game.cards)
+            print("________")
             styleVisibleCards()
+            hasMatch = false
+//            print("reset")
         }else {
-            print("can't deal anymore cards, no room on screen!")
+            print("just add three more")
+            //TODO: make sure no set exisit before dealing more
+            if visibleButtons.count < totalCardPlaceholder {
+                visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: visibleButtons.count + 3)
+                styleVisibleCards()
+            }else {
+                print("can't deal anymore cards, no room on screen!")
+            }
         }
     }
     
     @IBAction func selectCard(_ sender: UIButton) {
-        if let cardIndex = cardButtons.index(of: sender) {
-            game.chooseCard(at: cardIndex)
-            let card = game.cards[cardIndex]
-            // set selected style
-            if card.isSelected && card.isVisible {
-                sender.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
-                sender.layer.borderWidth = 3.0
-            }else {
-                sender.layer.borderWidth = 0.0
+        if let index = cardButtons.index(of: sender) {
+            
+            // clear old cards before selecting new one
+            if game.selectedCards.count == 3 && !hasMatch {
+                resetCardsStyle()
+                game.resetSelection()
+            }
+            
+            // only take action if card pressed is "visible" and do no have a match
+            if visibleButtons.contains(index) && !hasMatch{
+                // handle selection or deselection logic
+                game.touchCard(at: index)
+                // handle selection or deselection style
+                styleTouched(button: sender, by: game.cards[index])
+                // TODO: evalutate if match
+                if game.selectedCards.count == 3 {
+                    let hasSet = game.evaluateSet()
+                    if hasSet {
+                        hasMatch = true
+                        game.saveMatch()
+                    } else {
+                        hasMatch = false
+                        game.selectedCards.forEach({(card) in
+                            if let index = game.cards.index(of: card){
+                                cardButtons[index].layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                            }
+                        })
+                    }
+                }
+//                let match = game.checkMatch()
+                // TODO: if correct do something on ui, if not do something on ui
+                // TODO: handle less cards than visible buttons
+                //TODO: only allow pressing after hanlding match
+                // TODO: remove styles from matched after handling
             }
         }
     }
+    
+    func resetCardsStyle(){
+        for card in game.selectedCards {
+            if let index = game.cards.index(of: card){
+                let button = cardButtons[index]
+                let resetCard = game.unselectCard(by: index)
+                styleTouched(button: button, by: resetCard)
+            }
+        }
+    }
+    
+    func styleTouched(button: UIButton, by card: Card) {
+        if card.isSelected {
+            button.layer.borderColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+            button.layer.borderWidth = 6.0
+        }else {
+            button.layer.borderWidth = 0.0
+        }
+    }
+    
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
-            // start with 12 visible cards
-            visibleSet = getUniqueRandomNumbers(for: visibleSet, total: 12)
+            // initalize with 12 visible buttons
+            visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 12)
             //  and styles cards
+            print("initalize buttson", visibleButtons)
+            print("initalize cards")
+            print(game.cards)
+            print("____________")
             styleVisibleCards()
         }
     }
     
     private func styleVisibleCards() {
-        for cardIndex in visibleSet {
+        for cardIndex in visibleButtons {
             let card = game.cards[cardIndex]
             let button = cardButtons[cardIndex]
-            // make visible
-            game.makeCardVisible(by: cardIndex)
-            // style cards
-            style(a: button, by: card)
+            if !game.matchedCards.contains(card){
+                // style cards
+                style(a: button, by: card)
+            }else {
+                // hide
+                print("IN MACTHED:")
+                print(game.matchedCards)
+                print("________")
+                print("button:")
+                print(cardButtons.index(of: button)!)
+                button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+                button.setTitle("", for: .normal)
+            }
         }
     }
     

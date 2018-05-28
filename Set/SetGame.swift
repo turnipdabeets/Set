@@ -13,41 +13,71 @@ struct SetGame
 {
     private(set) var cards = [Card]()
     private(set) var score = 0
-    private var selectedCards = [Int]()
+    private(set) var matchedCards = [Card]()
+    private(set) var selectedCards = [Card]()
     
-    mutating func makeCardVisible(by index: Int){
-        cards[index].isVisible = true
-    }
-    
-    mutating func chooseCard(at index: Int) {
+    mutating func touchCard(at index: Int) {
         assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
         if selectedCards.count < 3 {
             // toggle and store selected cards
             handleSelectedCard(at: index)
         }
-        if selectedCards.count == 3{
-            // evaluate correctness of selected cards
-            let hasSet = evaluateSet()
-            if hasSet {
-                // reset selectedCards
-                selectedCards.removeAll()
-                // increment score
-                score += 1
-                // TODO: if correct do something on ui, if not do something on ui
-                // TODO: add three more cards automatically
-                // TODO: add point to score
-            } else {
-               print("sorry, you dont have a Set~")
+    }
+    
+    mutating func unselectCard(by index: Int) -> Card {
+       cards[index].isSelected = false
+        return cards[index]
+    }
+    
+    mutating func resetSelection(){
+        // reset selectedCards
+        selectedCards.removeAll()
+    }
+    
+    mutating func getNewCards(){
+        selectedCards.forEach({(card: Card) -> Void in
+            // remove old card from deck & replace with a new card
+            for new in stride(from: cards.count - 1, to: 0, by: -1) {
+                if let previous = cards.index(of: card) {
+                    // swap cards
+                    if !matchedCards.contains(cards[new]) {
+                        cards.swapAt(new, previous)
+                        break;
+                    }
+                }
             }
+            return
+        })
+//        print("matchedCards", matchedCards)
+
+    }
+    
+    mutating func saveMatch() {
+        // save matches
+        matchedCards += selectedCards
+        // increment score
+        score += 1
+        
+    }
+    
+    mutating private func handleSelectedCard(at index: Int){
+        // toggle isSelected
+        cards[index].isSelected = !cards[index].isSelected
+        let card = cards[index]
+        if let selected = selectedCards.index(of: card) {
+        // remove unselected
+            selectedCards.remove(at: selected)
+        }else {
+        // save selected
+            selectedCards.append(card)
         }
     }
     
-    private func evaluateSet() -> Bool {
-        print("evaluating...")
+    func evaluateSet() -> Bool {
         // get three selected cards
-        let cardOne = cards[selectedCards[0]]
-        let cardTwo = cards[selectedCards[1]]
-        let cardThree = cards[selectedCards[2]]
+        let cardOne = selectedCards[0]
+        let cardTwo = selectedCards[1]
+        let cardThree = selectedCards[2]
         // get set cases
         let allTheSameNumber = allTheSame(itemOne: cardOne.number, itemTwo: cardTwo.number, itemThree: cardThree.number)
         let allDifferentNumber = allDifferent(itemOne: cardOne.number, itemTwo: cardTwo.number, itemThree: cardThree.number)
@@ -62,7 +92,6 @@ struct SetGame
             if allTheSameColor || allDifferentColor {
                 if allTheSameSymbol || allDifferentSymbol {
                     if allTheSameShading || allDifferentShading {
-                        print("you have a Set~")
                         return true
                     }
                 }
@@ -79,20 +108,6 @@ struct SetGame
         return itemOne != itemTwo && itemTwo != itemThree && itemThree != itemOne
     }
     
-    mutating private func handleSelectedCard(at index: Int){
-        // toggle isSelected
-        cards[index].isSelected = !cards[index].isSelected
-        // save selected if visible
-        if cards[index].isSelected && cards[index].isVisible {
-            selectedCards.append(index)
-        }else {
-            // remove unselected
-            if let selected = selectedCards.index(of: index) {
-                selectedCards.remove(at: selected)
-            }
-        }
-    }
-    
     mutating private func makeDeck(){
         let cardOptionRange = 0..<3
         for number in cardOptionRange {
@@ -107,6 +122,35 @@ struct SetGame
         }
     }
     
+    mutating private func testDeck(){
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        
+    }
+    
     mutating private func shuffleDeck() {
         for _ in 0..<cards.count {
             cards.sort(by: {_,_ in arc4random() > arc4random()})
@@ -114,8 +158,9 @@ struct SetGame
     }
     
     init() {
-        makeDeck()
-        shuffleDeck()
+        testDeck()
+//        makeDeck()
+//        shuffleDeck()
     }
     
 }
