@@ -29,7 +29,7 @@ struct SetGame
         return cards[index]
     }
     
-    mutating func resetSelection(){
+    mutating func clearOutSelectedCards(){
         // reset selectedCards
         selectedCards.removeAll()
     }
@@ -57,7 +57,8 @@ struct SetGame
         matchedCards += selectedCards
         // increment score
         score += 1
-        
+        print("matchedCards")
+        print(matchedCards.map({$0.identifier}))
     }
     
     mutating private func handleSelectedCard(at index: Int){
@@ -67,7 +68,7 @@ struct SetGame
         if let selected = selectedCards.index(of: card) {
         // remove unselected
             selectedCards.remove(at: selected)
-        }else {
+        } else {
         // save selected
             selectedCards.append(card)
         }
@@ -135,7 +136,6 @@ struct SetGame
         cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
         cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
         cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        
         cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
         cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
         cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))

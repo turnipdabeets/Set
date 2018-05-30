@@ -19,7 +19,7 @@ struct Card: Hashable
     var shading: Int
     var color: Int
     
-    private var identifier: Int
+    private(set) var identifier: Int
     private static var identifierFactory = 0
     
     /// always return a unique number incrementing by 1

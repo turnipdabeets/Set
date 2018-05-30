@@ -20,18 +20,13 @@ class ViewController: UIViewController {
         if hasMatch {
             resetCardsStyle()
             game.getNewCards()
-            game.resetSelection()
-            print("new card order")
-            print(game.cards)
-            print("________")
+            game.clearOutSelectedCards()
             styleVisibleCards()
             hasMatch = false
-//            print("reset")
         }else {
-            print("just add three more")
             //TODO: make sure no set exisit before dealing more
             if visibleButtons.count < totalCardPlaceholder {
-                visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: visibleButtons.count + 3)
+                visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 6)
                 styleVisibleCards()
             }else {
                 print("can't deal anymore cards, no room on screen!")
@@ -45,7 +40,7 @@ class ViewController: UIViewController {
             // clear old cards before selecting new one
             if game.selectedCards.count == 3 && !hasMatch {
                 resetCardsStyle()
-                game.resetSelection()
+                game.clearOutSelectedCards()
             }
             
             // only take action if card pressed is "visible" and do no have a match
@@ -100,7 +95,7 @@ class ViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
             // initalize with 12 visible buttons
-            visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 12)
+            visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 6)
             //  and styles cards
             print("initalize buttson", visibleButtons)
             print("initalize cards")
@@ -122,10 +117,10 @@ class ViewController: UIViewController {
                 print("IN MACTHED:")
                 print(game.matchedCards)
                 print("________")
-                print("button:")
-                print(cardButtons.index(of: button)!)
+                print("button:", button)
+//                button.isHidden = true
                 button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-                button.setTitle("", for: .normal)
+                button.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
             }
         }
     }
