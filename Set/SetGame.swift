@@ -11,7 +11,11 @@ import Foundation
 struct SetGame
 {
     private(set) var cards = [Card]()
-    private(set) var selectedCards = [Card]()
+    private(set) var selectedCards = [Card]() {
+        didSet {
+            print("setting")
+        }
+    }
     
     init(){
         //        makeDeck()
@@ -57,27 +61,29 @@ struct SetGame
     }
     
     mutating func checkForMatch() -> [Card]? {
+        var matchedCards = [Card]()
         if selectedCards.count == 3 {
             //check if match
             let hasMatch = evaluateSet()
             if hasMatch {
-                let matchedCards = selectedCards
-                selectedCards.removeAll()
-                return matchedCards
+                matchedCards = selectedCards
             }
+            selectedCards.removeAll()
         }
-        return nil
+        return matchedCards.isEmpty ? nil : matchedCards
     }
     
-    mutating func touch(card: Card) {
+    mutating func select(card: Card) {
         // remove from selected if previously selected
         if let index = selectedCards.index(of: card){
             selectedCards.remove(at: index)
+            return
         }
         // save 3 total selected cards
         if selectedCards.count < 3 {
-            selectedCards += [card]
+            selectedCards.append(card)
         }
+
     }
     
     func evaluateSet() -> Bool {
