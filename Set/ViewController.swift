@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var visibleCards = [Card]()
     lazy var totalButtonsAvailable = cardButtons.count
     var hasMatch = false
-    
+    var misMacthedCards = [Card]()
     
     @IBAction func dealThreeMore(_ sender: UIButton) {
         
@@ -41,6 +41,8 @@ class ViewController: UIViewController {
     
     @IBAction func selectCard(_ sender: UIButton) {
         if let index = cardButtons.index(of: sender) {
+            // clear styles if mismatched cards
+            clearMisMatchStyle()
             // select or deselect card
             game.select(card: visibleCards[index])
             styleTouched(button: cardButtons[index], by: visibleCards[index])
@@ -49,9 +51,24 @@ class ViewController: UIViewController {
         }
     }
     
+    func clearMisMatchStyle(){
+        if !misMacthedCards.isEmpty {
+            for card in misMacthedCards {
+                if let index = visibleCards.index(of: card){
+                    // remove style
+                    let button = cardButtons[index]
+                    button.layer.borderWidth = 0.0
+                }
+            }
+            misMacthedCards.removeAll()
+        }
+    }
+    
     // TODO: move this logic to draw for styleTouched and replace old and new
     func handleMatchedCards(){
         if let matchedCards = game.checkForMatch() {
+            hasMatch = true
+            game.clearSelectedCards()
             for card in matchedCards {
                 if let index = visibleCards.index(of: card){
                     // remove styles
@@ -66,7 +83,20 @@ class ViewController: UIViewController {
                 }
             }
         }else {
-            print("no match")
+            hasMatch = false
+            if game.selectedCards.count == 3 {
+                print("no match")
+                for card in game.selectedCards {
+                    if let index = visibleCards.index(of: card){
+                        // mark not match style
+                        let button = cardButtons[index]
+                        button.layer.borderColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+                        button.layer.borderWidth = 6.0
+                    }
+                }
+                misMacthedCards = game.selectedCards
+                game.clearSelectedCards()
+            }
         }
     }
     

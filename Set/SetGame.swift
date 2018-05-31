@@ -60,6 +60,10 @@ struct SetGame
         }
     }
     
+    mutating func clearSelectedCards(){
+        selectedCards.removeAll()
+    }
+    
     mutating func checkForMatch() -> [Card]? {
         var matchedCards = [Card]()
         if selectedCards.count == 3 {
@@ -68,7 +72,6 @@ struct SetGame
             if hasMatch {
                 matchedCards = selectedCards
             }
-            selectedCards.removeAll()
         }
         return matchedCards.isEmpty ? nil : matchedCards
     }
