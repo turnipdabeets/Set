@@ -10,79 +10,165 @@ import UIKit
 
 class ViewController: UIViewController {
     var game = SetGame()
-    var visibleButtons = Set<Int>()
-    lazy var totalCardPlaceholder = cardButtons.count
+    var visibleCards = [Card]()
+    lazy var totalButtonsAvailable = cardButtons.count
     var hasMatch = false
     
     
     @IBAction func dealThreeMore(_ sender: UIButton) {
-        // TODO: add three more cards automatically
+        
         if hasMatch {
-            resetCardsStyle()
-            game.getNewCards()
-            game.clearOutSelectedCards()
-            styleVisibleCards()
-            hasMatch = false
-        }else {
-            //TODO: make sure no set exisit before dealing more
-            if visibleButtons.count < totalCardPlaceholder {
-                visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 6)
-                styleVisibleCards()
-            }else {
+            
+        } else {
+            //TODO: make sure no set exists before allow dealing more?
+            if visibleCards.count < totalButtonsAvailable {
+                let lastVisibleCardIndex = visibleCards.count
+                for index in 0..<3 {
+                    if let card = game.draw() {
+                        visibleCards.append(card)
+                        style(a: cardButtons[index + lastVisibleCardIndex], by: card)
+                    } else {
+                        print("ran out of cards in the deck!")
+                    }
+                }
+                
+            } else{
                 print("can't deal anymore cards, no room on screen!")
             }
         }
+
     }
     
     @IBAction func selectCard(_ sender: UIButton) {
         if let index = cardButtons.index(of: sender) {
-            
-            // clear old cards before selecting new one
-            if game.selectedCards.count == 3 && !hasMatch {
-                resetCardsStyle()
-                game.clearOutSelectedCards()
-            }
-            
-            // only take action if card pressed is "visible" and do no have a match
-            if visibleButtons.contains(index) && !hasMatch{
-                // handle selection or deselection logic
-                game.touchCard(at: index)
-                // handle selection or deselection style
-                styleTouched(button: sender, by: game.cards[index])
-                // TODO: evalutate if match
-                if game.selectedCards.count == 3 {
-                    let hasSet = game.evaluateSet()
-                    if hasSet {
-                        hasMatch = true
-                        game.saveMatch()
+            // select card
+            game.touch(card: visibleCards[index])
+            // check for match
+            checkForMatch()
+        }
+    }
+    
+    func checkForMatch(){
+        if let matchedCards = game.checkForMatch() {
+            for card in matchedCards {
+                if let index = visibleCards.index(of: card){
+                    // draw new card
+                    if let newCard = game.draw() {
+                        // replace old card with newCard
+                        visibleCards[index] = newCard
+                        style(a: cardButtons[index], by: newCard)
                     } else {
-                        hasMatch = false
-                        game.selectedCards.forEach({(card) in
-                            if let index = game.cards.index(of: card){
-                                cardButtons[index].layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                            }
-                        })
+                        // ran out of cards in the deck!
+                        hideButton(by: index)
                     }
                 }
-//                let match = game.checkMatch()
-                // TODO: if correct do something on ui, if not do something on ui
-                // TODO: handle less cards than visible buttons
-                //TODO: only allow pressing after hanlding match
-                // TODO: remove styles from matched after handling
             }
         }
     }
     
-    func resetCardsStyle(){
-        for card in game.selectedCards {
-            if let index = game.cards.index(of: card){
-                let button = cardButtons[index]
-                let resetCard = game.unselectCard(by: index)
-                styleTouched(button: button, by: resetCard)
-            }
-        }
+    
+//    // draw new card
+//    if let newCard = game.draw() {
+//        if let index = visibleCards.index(of: card){
+//            // replace old card with newCard
+//            visibleCards[index] = newCard
+//            style(a: cardButtons[index], by: newCard)
+//        }
+//    } else {
+//    // ran out of cards in the deck!
+//    if let index = visibleCards.index(of: card){
+//    hideButton(by: index)
+//    }
+//    }
+    
+//    if game.cards.count == 0 {
+//    // nothing left to swap
+//    if let index = visibleCards.index(of: card){
+//    hideButton(by: index)
+//    }
+//    } else {
+//    // draw new card
+//    if let newCard = game.draw() {
+//    if let index = visibleCards.index(of: card){
+//    // replace old card with newCard
+//    visibleCards[index] = newCard
+//    style(a: cardButtons[index], by: newCard)
+//    }
+//    } else {
+//    print("ran out of cards in the deck!")
+//    }
+//    }
+    
+//    if let index = visibleCards.index(of: card){
+//        // no visible space to swap for new card so "hide"
+//        if game.cards.count < visibleCards.count {
+//            hideButton(by: index)
+//        } else {
+//            // draw new card
+//            if let newCard = game.draw() {
+//                // replace old card with newCard
+//                visibleCards[index] = newCard
+//                style(a: cardButtons[index], by: newCard)
+//            } else {
+//                print("ran out of cards in the deck!")
+//            }
+//        }
+//    }
+    
+    func hideButton(by index: Int){
+        let button = cardButtons[index]
+        button.setAttributedTitle(NSAttributedString(string:""), for: .normal)
+        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
     }
     
+//
+        
+//            // clear old cards before selecting new one
+//            if game.selectedCards.count == 3 && !hasMatch {
+//                resetCardsStyle()
+//                game.clearOutSelectedCards()
+//            }
+//
+//            // only take action if card pressed is "visible" and do no have a match
+//            if visibleButtons.contains(index) && !hasMatch{
+//                // handle selection or deselection logic
+//                game.touchCard(at: index)
+//                // handle selection or deselection style
+//                styleTouched(button: sender, by: game.cards[index])
+//                // TODO: evalutate if match
+//                if game.selectedCards.count == 3 {
+//                    let hasSet = game.evaluateSet()
+//                    if hasSet {
+//                        hasMatch = true
+////                        game.saveMatch()
+//                    } else {
+//                        hasMatch = false
+//                        game.selectedCards.forEach({(card) in
+//                            if let index = game.cards.index(of: card){
+//                                cardButtons[index].layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+//                            }
+//                        })
+//                    }
+//                }
+////                let match = game.checkMatch()
+//                // TODO: if correct do something on ui, if not do something on ui
+//                // TODO: handle less cards than visible buttons
+//                //TODO: only allow pressing after hanlding match
+//                // TODO: remove styles from matched after handling
+//            }
+//        }
+//    }
+    
+//    func resetCardsStyle(){
+//        for card in game.selectedCards {
+//            if let index = game.cards.index(of: card){
+//                let button = cardButtons[index]
+//                let resetCard = game.unselectCard(by: index)
+//                styleTouched(button: button, by: resetCard)
+//            }
+//        }
+//    }
+
     func styleTouched(button: UIButton, by card: Card) {
         if card.isSelected {
             button.layer.borderColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
@@ -94,46 +180,15 @@ class ViewController: UIViewController {
     
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
-            // initalize with 12 visible buttons
-            visibleButtons = getUniqueRandomNumbers(for: visibleButtons, total: 6)
-            //  and styles cards
-            print("initalize buttson", visibleButtons)
-            print("initalize cards")
-            print(game.cards)
-            print("____________")
-            styleVisibleCards()
-        }
-    }
-    
-    private func styleVisibleCards() {
-        for cardIndex in visibleButtons {
-            let card = game.cards[cardIndex]
-            let button = cardButtons[cardIndex]
-            if !game.matchedCards.contains(card){
-                // style cards
-                style(a: button, by: card)
-            }else {
-                // hide
-                print("IN MACTHED:")
-                print(game.matchedCards)
-                print("________")
-                print("button:", button)
-//                button.isHidden = true
-                button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-                button.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+            // set up buttons with 12 cards
+            for index in 0..<12 {
+                if let card = game.draw() {
+                    visibleCards.append(card)
+                    style(a: cardButtons[index], by: card)
+                }
             }
         }
     }
-    
-    private func getUniqueRandomNumbers(for set: Set<Int>, total: Int) -> Set<Int> {
-        var uniqueNumbers = set
-        while uniqueNumbers.count < total {
-            let randomInt = Int(arc4random_uniform(UInt32(totalCardPlaceholder)))
-            uniqueNumbers.insert(randomInt)
-        }
-        return uniqueNumbers
-    }
-
     
     private func style(a button: UIButton, by card: Card) {
         // with color
@@ -164,8 +219,5 @@ class ViewController: UIViewController {
         button.setAttributedTitle(attributedString, for: .normal)
         button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
-    
-    
-    
 }
 

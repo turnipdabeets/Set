@@ -8,69 +8,75 @@
 
 import Foundation
 
-/// make a desk of cards with number, symbol, shading & color by Int 0-2
 struct SetGame
 {
     private(set) var cards = [Card]()
-    private(set) var score = 0
-    private(set) var matchedCards = [Card]()
     private(set) var selectedCards = [Card]()
     
-    mutating func touchCard(at index: Int) {
-        assert(cards.indices.contains(index), "Set.chooseCard(at index:\(index) is not in the deck")
-        if selectedCards.count < 3 {
-            // toggle and store selected cards
-            handleSelectedCard(at: index)
-        }
+    init(){
+        //        makeDeck()
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        
     }
     
-    mutating func unselectCard(by index: Int) -> Card {
-       cards[index].isSelected = false
-        return cards[index]
-    }
-    
-    mutating func clearOutSelectedCards(){
-        // reset selectedCards
-        selectedCards.removeAll()
-    }
-    
-    mutating func getNewCards(){
-        selectedCards.forEach({(card: Card) -> Void in
-            // remove old card from deck & replace with a new card
-            for new in stride(from: cards.count - 1, to: 0, by: -1) {
-                if let previous = cards.index(of: card) {
-                    // swap cards
-                    if !matchedCards.contains(cards[new]) {
-                        cards.swapAt(new, previous)
-                        break;
+    mutating private func makeDeck(){
+        let cardOptionRange = 0..<3
+        for number in cardOptionRange {
+            for symbol in cardOptionRange {
+                for shading in cardOptionRange {
+                    for color in cardOptionRange {
+                        let card = Card(number: number, symbol: symbol, shading: shading, color: color)
+                        cards.append(card)
                     }
                 }
             }
-            return
-        })
-//        print("matchedCards", matchedCards)
-
+        }
     }
     
-    mutating func saveMatch() {
-        // save matches
-        matchedCards += selectedCards
-        // increment score
-        score += 1
-        print("matchedCards")
-        print(matchedCards.map({$0.identifier}))
+    mutating func checkForMatch() -> [Card]? {
+        if selectedCards.count == 3 {
+            //check if match
+            let hasMatch = evaluateSet()
+            if hasMatch {
+                let matchedCards = selectedCards
+                selectedCards.removeAll()
+                return matchedCards
+            }
+        }
+        return nil
     }
     
-    mutating private func handleSelectedCard(at index: Int){
-        // toggle isSelected
-        cards[index].isSelected = !cards[index].isSelected
-        let card = cards[index]
-        if let selected = selectedCards.index(of: card) {
-        // remove unselected
-            selectedCards.remove(at: selected)
-        } else {
-        // save selected
-            selectedCards.append(card)
+    mutating func touch(card: Card) {
+        // remove from selected if previously selected
+        if let index = selectedCards.index(of: card){
+            selectedCards.remove(at: index)
+        }
+        // save 3 total selected cards
+        if selectedCards.count < 3 {
+            selectedCards += [card]
         }
     }
     
@@ -109,58 +115,24 @@ struct SetGame
         return itemOne != itemTwo && itemTwo != itemThree && itemThree != itemOne
     }
     
-    mutating private func makeDeck(){
-        let cardOptionRange = 0..<3
-        for number in cardOptionRange {
-            for symbol in cardOptionRange {
-                for shading in cardOptionRange {
-                    for color in cardOptionRange {
-                        let card = Card(number: number, symbol: symbol, shading: shading, color: color)
-                        cards.append(card)
-                    }
-                }
-            }
+    mutating func draw() -> Card? {
+        if cards.count > 0 {
+            return cards.remove(at: cards.count.arc4random)
+        }else {
+            return nil
         }
     }
     
-    mutating private func testDeck(){
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
-        
-    }
-    
-    mutating private func shuffleDeck() {
-        for _ in 0..<cards.count {
-            cards.sort(by: {_,_ in arc4random() > arc4random()})
+}
+
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        }else {
+            return 0
         }
     }
-    
-    init() {
-        testDeck()
-//        makeDeck()
-//        shuffleDeck()
-    }
-    
 }
