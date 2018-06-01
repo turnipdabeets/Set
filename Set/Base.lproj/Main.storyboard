@@ -249,7 +249,7 @@
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mQ-eJ-YHo">
                                 <rect key="frame" x="252" y="610" width="107" height="37"/>
-                                <color key="backgroundColor" red="0.2196078431372549" green="0.64882352941176458" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="107" id="APg-c6-5jW"/>
                                 </constraints>
@@ -329,6 +329,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="dealMoreButton" destination="beD-Bu-vHi" id="YPJ-gh-GAC"/>
                         <outlet property="infoLabel" destination="EI6-bP-S2T" id="wJx-ss-c6m"/>
                         <outlet property="matchLabel" destination="jvg-it-dNz" id="ny2-1D-joq"/>
                         <outlet property="scoreLabel" destination="QBx-2Y-ppN" id="mX9-62-jJY"/>

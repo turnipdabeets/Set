@@ -51,6 +51,7 @@ class ViewController: UIViewController {
             initalDeal()
         }
     }
+    @IBOutlet weak var dealMoreButton: UIButton!
     @IBAction func dealThreeMore(_ sender: UIButton) {
 //        // reset for new games
 //        if !game.cards.isEmpty{
@@ -99,12 +100,16 @@ class ViewController: UIViewController {
     }
     
     private func resetButtons(){
+        // reset cardButtons
         for button in cardButtons {
             button.isEnabled = true
             button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
             button.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
         }
-        
+        // reset dealMoreButton
+        dealMoreButton.isEnabled = true
+        dealMoreButton.backgroundColor = #colorLiteral(red: 0.231372549, green: 0.6, blue: 0.9882352941, alpha: 1)
+        dealMoreButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
     }
     
     private func initalDeal(){
@@ -138,7 +143,8 @@ class ViewController: UIViewController {
     
     private func disable(button sender: UIButton){
         sender.isEnabled = false
-        sender.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5160798373)
+        sender.backgroundColor = #colorLiteral(red: 0.8000000119, green: 0.8000000119, blue: 0.8000000119, alpha: 1)
+        sender.setTitleColor(#colorLiteral(red: 0.5, green: 0.5, blue: 0.5, alpha: 1), for: .normal)
     }
     
     private func removeStyleFrom(button: UIButton){
