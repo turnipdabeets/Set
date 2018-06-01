@@ -11,11 +11,7 @@ import Foundation
 struct SetGame
 {
     private(set) var cards = [Card]()
-    private(set) var selectedCards = [Card]() {
-        didSet {
-            print("setting")
-        }
-    }
+    private(set) var selectedCards = [Card]()
     
     init(){
         //        makeDeck()

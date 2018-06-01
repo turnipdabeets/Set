@@ -12,8 +12,6 @@ import Foundation
 
 struct Card: Hashable
 {
-    var isSelected = false
-    var isVisible = false
     var number: Int
     var symbol: Int
     var shading: Int
