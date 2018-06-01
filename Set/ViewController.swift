@@ -11,6 +11,15 @@ import UIKit
 class ViewController: UIViewController {
     private var game = SetGame()
     private var visibleCards = [Card]()
+    private var allCardsMatched: Bool {
+        let cards = visibleCards.filter({card in
+            if let index = visibleCards.index(of: card){
+                return cardButtons[index].isEnabled
+            }
+            return false
+        })
+        return cards.count == 3
+    }
     private var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
@@ -30,7 +39,7 @@ class ViewController: UIViewController {
             if !matched.isEmpty {
                 infoLabel.numberOfLines = 2
                 infoLabel.lineBreakMode = .byWordWrapping
-                matchLabel.text = "MATCH!"
+                matchLabel.text = allCardsMatched ? "YOU WIN!" : "MATCH!"
                 if !game.cards.isEmpty {
                     infoLabel.text = "deal three more cards..."
                 }else {
@@ -53,10 +62,6 @@ class ViewController: UIViewController {
     }
     @IBOutlet weak var dealMoreButton: UIButton!
     @IBAction func dealThreeMore(_ sender: UIButton) {
-//        // reset for new games
-//        if !game.cards.isEmpty{
-//            sender.isEnabled = true
-//        }
         // have a match and cards available to deal
         if !matched.isEmpty && !game.cards.isEmpty {
             clearAndDeal()
