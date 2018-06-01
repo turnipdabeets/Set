@@ -56,11 +56,19 @@ struct SetGame
         }
     }
     
+    mutating func drawCard() -> Card? {
+        if cards.count > 0 {
+            return cards.remove(at: cards.count.arc4random)
+        }else {
+            return nil
+        }
+    }
+    
     mutating func clearSelectedCards(){
         selectedCards.removeAll()
     }
     
-    mutating func checkForMatch() -> [Card]? {
+    mutating func matchedCards() -> [Card]? {
         var matchedCards = [Card]()
         if selectedCards.count == 3 {
             //check if match
@@ -82,7 +90,6 @@ struct SetGame
         if selectedCards.count < 3 {
             selectedCards.append(card)
         }
-
     }
     
     func evaluateSet() -> Bool {
@@ -118,14 +125,6 @@ struct SetGame
     
     private func allDifferent(itemOne: Int, itemTwo: Int, itemThree:Int) -> Bool {
         return itemOne != itemTwo && itemTwo != itemThree && itemThree != itemOne
-    }
-    
-    mutating func draw() -> Card? {
-        if cards.count > 0 {
-            return cards.remove(at: cards.count.arc4random)
-        }else {
-            return nil
-        }
     }
     
 }
