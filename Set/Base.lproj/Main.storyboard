@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -246,38 +247,91 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mQ-eJ-YHo">
-                                <rect key="frame" x="239" y="593" width="120" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mQ-eJ-YHo">
+                                <rect key="frame" x="252" y="610" width="107" height="37"/>
+                                <color key="backgroundColor" red="0.2196078431372549" green="0.64882352941176458" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="107" id="APg-c6-5jW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="New Game">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="newGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRi-fL-dB6"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="beD-Bu-vHi">
-                                <rect key="frame" x="147" y="593" width="80" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Deal">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="beD-Bu-vHi">
+                                <rect key="frame" x="136" y="610" width="95" height="37"/>
+                                <color key="backgroundColor" red="0.2196078431372549" green="0.65490196078431373" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Deal 3">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="dealThreeMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uHS-J7-dh1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Score: 0 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBx-2Y-ppN">
+                                <rect key="frame" x="16" y="575" width="96" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvg-it-dNz">
+                                <rect key="frame" x="188" y="577" width="0.0" height="19"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EI6-bP-S2T">
+                                <rect key="frame" x="16" y="604" width="0.0" height="43"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4mQ-eJ-YHo" firstAttribute="firstBaseline" secondItem="beD-Bu-vHi" secondAttribute="baseline" id="02e-oR-VTB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6cx-5B-jrI" secondAttribute="bottom" constant="100" id="0Wr-j0-ld5"/>
+                            <constraint firstItem="beD-Bu-vHi" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-4" id="0tA-KT-aGP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6cx-5B-jrI" secondAttribute="trailing" constant="16" id="22B-FJ-bcr"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QBx-2Y-ppN" secondAttribute="trailing" constant="20" symbolic="YES" id="4q7-zH-Iqt"/>
+                            <constraint firstItem="4mQ-eJ-YHo" firstAttribute="leading" secondItem="beD-Bu-vHi" secondAttribute="trailing" constant="21" id="7OZ-jB-sfH"/>
+                            <constraint firstItem="4mQ-eJ-YHo" firstAttribute="top" secondItem="beD-Bu-vHi" secondAttribute="top" id="9Mf-ME-UIW"/>
+                            <constraint firstItem="EI6-bP-S2T" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ExH-IR-tsl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="EI6-bP-S2T" secondAttribute="bottom" constant="20" id="FGA-Yq-dl0"/>
+                            <constraint firstItem="beD-Bu-vHi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6cx-5B-jrI" secondAttribute="bottom" constant="43" id="LeW-4j-KSd"/>
+                            <constraint firstItem="jvg-it-dNz" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NPe-Kq-fnV"/>
+                            <constraint firstItem="jvg-it-dNz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6cx-5B-jrI" secondAttribute="bottom" constant="10" id="QBd-Eq-IMO"/>
                             <constraint firstItem="6cx-5B-jrI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="TeM-Lc-14P"/>
+                            <constraint firstItem="QBx-2Y-ppN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Zo3-tu-Fp5"/>
+                            <constraint firstItem="QBx-2Y-ppN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6cx-5B-jrI" secondAttribute="bottom" constant="8" id="Zzh-3l-IPe"/>
+                            <constraint firstItem="EI6-bP-S2T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QBx-2Y-ppN" secondAttribute="bottom" constant="8.5" id="eg6-hk-Hfp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="beD-Bu-vHi" secondAttribute="bottom" constant="20" id="faK-iQ-bHQ"/>
+                            <constraint firstItem="4mQ-eJ-YHo" firstAttribute="trailing" secondItem="6cx-5B-jrI" secondAttribute="trailing" id="frn-9x-lSQ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EI6-bP-S2T" secondAttribute="trailing" constant="236" id="kSE-wE-kNJ"/>
                             <constraint firstItem="6cx-5B-jrI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="oKr-y9-aDa"/>
+                            <constraint firstItem="EI6-bP-S2T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="rp3-FT-ewl"/>
+                            <constraint firstItem="4mQ-eJ-YHo" firstAttribute="top" secondItem="6cx-5B-jrI" secondAttribute="bottom" constant="43" id="v1o-Uf-WUo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="infoLabel" destination="EI6-bP-S2T" id="wJx-ss-c6m"/>
+                        <outlet property="matchLabel" destination="jvg-it-dNz" id="ny2-1D-joq"/>
+                        <outlet property="scoreLabel" destination="QBx-2Y-ppN" id="mX9-62-jJY"/>
                         <outletCollection property="cardButtons" destination="EgG-WG-ZuJ" collectionClass="NSMutableArray" id="vQr-Qw-uju"/>
                         <outletCollection property="cardButtons" destination="Cfx-kC-fGZ" collectionClass="NSMutableArray" id="qZW-YC-tS4"/>
                         <outletCollection property="cardButtons" destination="8sD-Lk-Svy" collectionClass="NSMutableArray" id="ZqX-xS-1N6"/>
