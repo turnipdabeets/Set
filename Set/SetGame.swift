@@ -15,6 +15,31 @@ struct SetGame
     
     init(){
         makeDeck()
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 1, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 2, symbol: 1, shading: 1, color: 1))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+//        cards.append(Card(number: 0, symbol: 1, shading: 1, color: 0))
+        
     }
     
     mutating private func makeDeck(){
